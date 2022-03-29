@@ -11,8 +11,7 @@
           Home
         </router-link>
       </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
+      <div v-if="isLoggedIn" id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
@@ -28,6 +27,13 @@
               </a>
             </div>
           </div>
+          <div class="navbar-item">
+            <div class="buttons">
+              <a @click="logout" class="button is-dark">
+                <strong>Logout</strong>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -35,15 +41,27 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'NavigationComponent',
+  data() {
+    return {};
+  },
   methods: {
+    ...mapActions('auth', ['logoutAction']),
     show() {
       this.$modal.show('create-modal');
     },
     hide() {
       this.$modal.hide('create-modal');
     },
+    logout() {
+      this.logoutAction();
+      this.$router.push({ name: 'login' });
+    },
+  },
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn']),
   },
 };
 </script>
