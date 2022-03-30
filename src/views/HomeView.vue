@@ -1,13 +1,25 @@
 <template>
-    <main class="l-main">
+  <main class="l-main">
     <div class="container is-max-desktop">
       <section class="section">
+        <div class="tabs">
+          <ul>
+            <li @click="filterCompetitions('active')" :class="{ 'is-active' : currentFilter === 'active' }">
+              <a>Active</a>
+            </li>
+            <li @click="filterCompetitions('finished')" :class="{ 'is-active' : currentFilter === 'finished' }"><a>Previous</a></li>
+          </ul>
+        </div>
         <h1 class="title">Large section</h1>
         <h2 class="subtitle">
           A simple container to divide your page into <strong>sections</strong>,
           like the one you're currently reading.
         </h2>
-        <router-link v-for="item in competitionList" :key="item.id" :to="`/competitions/${item.id}`">
+        <router-link
+          v-for="item in getFilteredCompetitions"
+          :key="item.id"
+          :to="`/competitions/${item.id}`"
+        >
           <div class="card">
             <div class="card-image">
               <figure class="image is-4by3">
@@ -29,13 +41,16 @@
                 </div>
                 <div class="media-content">
                   <p class="title is-4">{{ item.name }}</p>
-                  <p class="subtitle is-6">organizator: @stariDobriVanjaOrganizator</p>
+                  <p class="subtitle is-6">
+                    organizator: @stariDobriVanjaOrganizator
+                  </p>
                 </div>
               </div>
 
               <div class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-                nec iaculis mauris. <a>@bulmaio</a>. <a href="#">#css</a>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                <a href="#">#css</a>
                 <a href="#">#responsive</a>
                 <br />
                 <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
@@ -53,16 +68,43 @@ export default {
   name: 'HomeView',
   data() {
     return {
+      currentFilter: 'active',
       competitionList: [
-        { id: 1, name: 'Glozan Method Cup', date: '11:09 PM - 1 Jan 2022' },
-        { id: 2, name: 'Backi Jarak Method Cup', date: '11:09 PM - 1 Jan 2022' },
-      ]
-    }
+        {
+          id: 1,
+          name: 'Glozan Method Cup',
+          date: '11:09 PM - 1 Jan 2022',
+          status: 'active',
+        },
+        {
+          id: 2,
+          name: 'Backi Jarak Method Cup',
+          date: '11:09 PM - 1 Jan 2022',
+          status: 'finished',
+        },
+        {
+          id: 3,
+          name: 'Backi Jarak Method Cup',
+          date: '11:09 PM - 1 Jan 2022',
+          status: 'finished',
+        },
+      ],
+    };
   },
-  props: {
-    msg: String
-  }
-}
+  computed: {
+    getFilteredCompetitions() {
+      return this.competitionList.filter(
+        (competition) => competition.status === this.currentFilter
+      );
+    },
+  },
+  methods: {
+    filterCompetitions(filter) {
+      console.log(filter);
+      this.currentFilter = filter;
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

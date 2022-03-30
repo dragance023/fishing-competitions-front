@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/competitions">
           <img
@@ -66,6 +66,11 @@ export default {
 };
 </script>
 <style scoped>
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
 h3 {
   margin: 40px 0 0;
 }
